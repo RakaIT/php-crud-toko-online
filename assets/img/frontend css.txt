@@ -1,0 +1,6 @@
+"Kalau mau geser → transform."
+"Kalau mau animasi halus → transition."
+"Kalau mau bayangan → box-shadow."
+"Kalau mau sudut bulat → border-radius."
+"Kalau mau jarak dalam → padding."
+"Kalau mau jarak luar → margin.
