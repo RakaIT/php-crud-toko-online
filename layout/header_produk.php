@@ -31,6 +31,9 @@
         <a href="../produk/tambah.php" class="btn nav-btn">
           <i class="bi bi-people-fill"></i>
           Tambah Produk
+        </a> 
+        <a href="../dashboard/index.php" class="btn nav-btn">
+          <i class="bi bi-bar-chart-fill"></i>Dashboard
         </a>
 
         <a href="../logout.php" class="nav-btn text-danger text-decoration-none">

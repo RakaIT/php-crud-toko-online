@@ -7,5 +7,5 @@ if (!isset($_SESSION['login'])) {
     exit;
 }
 
-header("Location: user/index.php");
+header("Location: dashboard/index.php");
 exit;

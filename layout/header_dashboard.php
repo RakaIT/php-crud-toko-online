@@ -8,32 +8,29 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="../assets/css/style.css">
-</head>
+  <link rel="stylesheet" href="../assets/css/style.css?v=5">
+</head> 
 
 <body class="d-flex flex-column min-vh-100">
 
   <nav class="navbar custom-dark">
     <div class="container">
 
-      <a href="../user/index.php" class="navbar-brand">
-        <i class="bi bi-shop-window"></i>
-        <span>Data Users</span>
+      <a href="../dashboard/index.php" class="navbar-brand">
+        <i class="bi bi-bar-chart-fill text-info"></i>
+        <span></span>
       </a>
 
       <div class="ms-auto nav-menu">
 
         <a href="../user/index.php" class="btn nav-btn">
-          <i class="bi bi-house-door"></i>
-          Home
+          <i class="bi bi-people-fill"></i>
+          User
         </a>
 
-        <a href="../user/tambah.php" class="btn nav-btn">
-          <i class="bi bi-people-fill"></i>
-          Tambah User
-        </a>
-        <a href="../dashboard/index.php" class="btn nav-btn">
-          <i class="bi bi-bar-chart-fill"></i>Dashboard
+        <a href="../produk/index.php" class="btn nav-btn">
+          <i class="bi bi-box-seam"></i>
+          Produk
         </a>
 
         <a href="../logout.php" class="nav-btn text-danger text-decoration-none">
