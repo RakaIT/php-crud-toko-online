@@ -127,7 +127,7 @@ $totalStok = mysqli_fetch_assoc($stok);
                     Kelola data Produk
                   </p>
 
-                  <a href="../user/index.php"
+                  <a href="../produk/index.php"
                     class="btn btn-primary rounded-pill px-4">
 
                     Buka
