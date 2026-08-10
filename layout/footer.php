@@ -2,7 +2,6 @@
   <footer>
     <div class="container text-center">
         <h5>
-            <i class="bi bi-shop"></i> Toko Online
         </h5>
 
         <p>© 2026 Dibuat oleh <strong>RAKA</strong></p>

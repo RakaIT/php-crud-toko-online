@@ -30,6 +30,7 @@ if (isset($_GET['search'])) {
     if ($_GET['pesan'] == "tambah") {
   ?>
       <div class="alert alert-success alert-dismissible fade show w-50 mx-auto shadow-sm rounded-3" role="alert">
+        <i class="bi bi-check-circle-fill"></i>
         Produk berhasil ditambahkan.
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
       </div>
@@ -94,26 +95,34 @@ if (isset($_GET['search'])) {
   <table class="table table-bordered table-hover">
 
     <tr>
+      <th>NO</th>
+      <th>Gambar</th>
       <th>Nama Produk</th>
       <th>Harga</th>
-      <th>Stok</th> 
+      <th>Stok</th>
       <th>Aksi</th>
     </tr>
-
-    <?php while ($row = mysqli_fetch_assoc($data)) { ?>
-
-      <tr>
-        <td><?= $row['nama_produk']; ?></td>
-        <td>Rp <?= number_format($row['harga']); ?></td>
-        <td><?= $row['stok']; ?></td>
-
+    <?php  $no = 1;
+      while ($row = mysqli_fetch_assoc($data)) { ?>
+      <td><?= $no++; ?></td>
+      <td>
+        <img
+          src="../assets/upload/<?= $row['gambar']; ?>"
+          width="90"
+          height="90"
+          style="object-fit:cover;border-radius:10px;">
+      </td>
+      <td><?= $row['nama_produk']; ?></td>
+      <td>Rp<?= number_format($row['harga']); ?></td>
+      <td><?= $row['stok']; ?>
+    </td>
         <td>
-          <a href="edit.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
+          <a href="edit.php?id=<?php echo $row['id']; ?>" class="btn btn-edit">
             Edit
           </a>
 
           <a href="hapus.php?id=<?php echo $row['id']; ?>"
-            class="btn btn-secondary btn-sm"
+            class="btn btn-hapus"
             onclick="return confirm('Yakin ingin menghapus produk ini?')">
             Hapus
           </a>

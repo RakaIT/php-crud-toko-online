@@ -14,18 +14,28 @@ if (isset($_POST['update'])) {
   $harga = $_POST['harga'];
   $stok = $_POST['stok'];
 
+  $gambar_lama = $_POST['gambar_lama'];
+  $gambar = $_FILES['gambar']['name'];
+  $tmp = $_FILES['gambar']['tmp_name'];
+  if ($gambar != "") {
+    move_uploaded_file($tmp, "../assets/upload/" . $gambar);
+  } else {
+    $gambar = $gambar_lama;
+  }
+
   $cek = mysqli_query(
     $koneksi,
-    "SELECT * FROM nama_produk
-              WHERE harga='$nama_produk'
-              AND stok != '$stok'"
+    "SELECT * FROM produk
+      WHERE nama_produk='$nama_produk'
+      AND id != '$id'"
   );
 
   $sql = "UPDATE produk
-                    SET nama_produk='$nama_produk',
-                        harga='$harga',
-                        stok='$stok'
-                    WHERE id ='$id'";
+        SET nama_produk='$nama_produk',
+            harga='$harga',
+            stok='$stok',
+            gambar='$gambar'
+        WHERE id='$id'";
 
 
   if (!mysqli_query($koneksi, $sql)) {
@@ -48,7 +58,7 @@ if (isset($_POST['update'])) {
       </div>
     </div>
     <h2>UPDATE PRODUK</h2>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
       <div class="card shadow">
         <div class="card-body">
 
@@ -75,7 +85,22 @@ if (isset($_POST['update'])) {
               class="form-control" required
               value="<?php echo $row['stok']; ?>">
           </div>
-
+          <div class="mb-3">
+            <label class="form-label">Gambar Saat Ini</label><br>
+            <img src="../assets/upload/<?= $row['gambar']; ?>"
+              width="150"
+              class="rounded shadow mb-2">
+            <input type="hidden"
+              name="gambar_lama"
+              value="<?= $row['gambar']; ?>">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Ganti Gambar</label>
+            <input
+              type="file"
+              class="form-control"
+              name="gambar">
+          </div>
           <button type="submit" name="update" class="btn btn-warning btn-sm">
             Update
           </button>

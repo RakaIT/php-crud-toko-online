@@ -118,12 +118,12 @@ if (isset($_GET['search'])) {
         <td><?php echo $row['email']; ?></td>
 
         <td>
-          <a href="edit.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
+          <a href="edit.php?id=<?php echo $row['id']; ?>" class="btn btn-edit">
             Edit
           </a>
 
           <a href="hapus.php?id=<?php echo $row['id']; ?>"
-            class="btn btn-secondary btn-sm"
+            class="btn btn-hapus"
             onclick="return confirm('Yakin ingin menghapus data ini?')">
             Hapus
           </a>

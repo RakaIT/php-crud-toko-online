@@ -6,18 +6,37 @@ if (isset($_POST['simpan'])) {
   $nama_produk = $_POST['nama_produk'];
   $harga = $_POST['harga'];
   $stok = $_POST['stok'];
+  $gambar = $_FILES['gambar']['name'];
+  $tmp = $_FILES['gambar']['tmp_name'];
 
-  mysqli_query(
-    $koneksi,
-    "INSERT INTO produk
-        VALUES(
-            NULL,
+  move_uploaded_file(
+    $tmp,
+    "../assets/upload/" .$gambar
+  );
+
+  $query = mysqli_query(
+        $koneksi,
+        "INSERT INTO produk
+        (
+            nama_produk,
+            harga,
+            stok,
+            gambar,
+            created_at
+        )
+        VALUES
+        (
             '$nama_produk',
             '$harga',
             '$stok',
+            '$gambar',
             NOW()
         )"
-  );
+    );
+
+    if (!$query) {
+        die(mysqli_error($koneksi));
+    }
   header("location: index.php?pesan=tambah");
   exit;
 }
@@ -30,8 +49,10 @@ if (isset($_POST['simpan'])) {
           <div class="card-body">
             <h2 class="mb-4">Tambah Produk</h2>
 
-            <form action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
               <div class="mb-3">
+                <label class="form-label">Gambar Produk</label>
+                <input type="file" name="gambar" class="form-control" accept="image/*" required>
                 <label class="form-label">Nama Produk</label>
                 <input type="text" name="nama_produk" class="form-control">
               </div>

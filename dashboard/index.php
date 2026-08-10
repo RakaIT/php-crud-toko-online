@@ -33,7 +33,7 @@ $totalStok = mysqli_fetch_assoc($stok);
     <div class="row g-4">
 
       <div class="col-md-4">
-        <div class="card dashboard-card shadow border-0">
+        <div class="card card-dashboard shadow border-0">
           <div class="card-body text-center">
 
             <i class="bi bi-people-fill text-primary display-4"></i>
@@ -47,7 +47,7 @@ $totalStok = mysqli_fetch_assoc($stok);
       </div>
 
       <div class="col-md-4">
-        <div class="card dashboard-card shadow border-0">
+        <div class="card card-dashboard shadow border-0">
           <div class="card-body text-center">
 
             <i class="bi bi-box-seam text-success display-4"></i>
@@ -61,7 +61,7 @@ $totalStok = mysqli_fetch_assoc($stok);
       </div>
 
       <div class="col-md-4">
-        <div class="card dashboard-card shadow border-0">
+        <div class="card card-dashboard shadow border-0">
           <div class="card-body text-center">
 
             <i class="bi bi-bar-chart-fill text-warning display-4"></i>
@@ -83,13 +83,26 @@ $totalStok = mysqli_fetch_assoc($stok);
 
             <a href="../user/index.php" class="text-decoration-none">
 
-              <div class="card dashboard-card shadow border-0">
+              <div class="card quick-card border-0">
 
                 <div class="card-body text-center">
 
-                  <i class="bi bi-people-fill text-primary fs-1"></i>
+                  <i class="bi bi-people-fill fs-1 text-primary"></i>
 
-                  <h4 class="mt-3">Kelola User</h4>
+                  <h3 class="mt-3">Kelola User</h3>
+
+                  <p class="text-muted mb-3">
+                    Kelola data user
+                  </p>
+
+                  <a href="../user/index.php"
+                    class="btn btn-primary rounded-pill px-4">
+
+                    Buka
+                    <i class="bi bi-arrow-right-short"></i>
+
+                  </a>
+
                 </div>
 
               </div>
@@ -102,14 +115,25 @@ $totalStok = mysqli_fetch_assoc($stok);
 
             <a href="../produk/index.php" class="text-decoration-none">
 
-              <div class="card dashboard-card shadow border-0">
+              <div class="card quick-card border-0">
 
                 <div class="card-body text-center">
 
-                  <i class="bi bi-box-seam text-success fs-1"></i>
+                  <i class="bi bi-box-seam fs-1 text-primary"></i>
 
-                  <h4 class="mt-3">Kelola Produk</h4>
+                  <h3 class="mt-3">Kelola Produk</h3>
 
+                  <p class="text-muted mb-3">
+                    Kelola data Produk
+                  </p>
+
+                  <a href="../user/index.php"
+                    class="btn btn-primary rounded-pill px-4">
+
+                    Buka
+                    <i class="bi bi-arrow-right-short"></i>
+
+                  </a>
 
                 </div>
 

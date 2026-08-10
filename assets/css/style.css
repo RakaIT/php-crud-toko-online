@@ -151,6 +151,19 @@ footer p{
     font-size: 15px;
 }
 
+footer{
+
+    background:white;
+    color:black;
+    padding:18px;
+
+}
+
+footer h3{
+    color:rgb(17, 16, 16);
+
+}
+
 .form-control {
   border-radius: 10px;
 }
@@ -239,7 +252,7 @@ footer p{
   border-radius: 20px;
   margin: 30px;
   position: relative;
-  height: 370px;
+  height: 370Px;
   overflow: hidden;
   box-shadow:0 15px 35px rgba(0, 0, 0,.25);
 
@@ -247,6 +260,13 @@ footer p{
   justify-content: center;
   align-items: center;
   transition: .4s;  
+}
+.hero-dashboard::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.15);
+
 }
 
 .hero-dashboard:hover{
@@ -257,10 +277,12 @@ footer p{
 .hero-dashboard-overlay {
   width: 100px;
   height: 100px;
+  position: relative;
 
   display: flex;
   flex-direction:column;
   justify-content:center;
+  z-index:2;
 
   padding-left: 50px;
   color: black;
@@ -271,10 +293,12 @@ footer p{
 .hero-dashboard h1{
     font-size:48px;
     font-weight:bold;
+    
 }
 
 .hero-dashboard p{
     font-size:18px;
+    color: white;
 }
 
 .dashboard-card{
@@ -320,3 +344,46 @@ footer p{
     color:#6c757d;
 }
 
+.card-dashboard{
+    transition: .3s;
+}
+
+.card-dashboard:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 20px 35px rgba(0,0,0,.15);
+}
+
+.quick-card{
+
+    border-radius:20px;
+    transition:.3s;
+    cursor:pointer;
+    background:linear-gradient(135deg,#ffffff,#f5f9ff);
+
+}
+
+.quick-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 18px 35px rgba(0,0,0,.18);
+
+}
+
+.btn-edit {
+    background: #2f5ddc;
+    border: none;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #1e40af;
+} 
+
+.btn-hapus {
+    background: #dc2626;
+    border: none;
+    color: white;
+}
+
+.btn-hapus:hover {
+    background: #b91c1c;
+}
