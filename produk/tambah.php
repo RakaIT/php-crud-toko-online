@@ -8,15 +8,45 @@ if (isset($_POST['simpan'])) {
   $stok = $_POST['stok'];
   $gambar = $_FILES['gambar']['name'];
   $tmp = $_FILES['gambar']['tmp_name'];
+  $ukuran = $_FILES['gambar']['size'];
 
+  //maksimal 2mb
+  if ($ukuran  > 2 * 1024 * 1024) {
+    echo"
+    <script>
+        alert('Ukuran Gambar Maksimal 2 MB!');
+        window.history.back();
+        </script>";
+        exit;
+  } 
+
+  // Ambil ekstensi file
+  $ekstensi = strtolower(pathinfo($gambar, PATHINFO_EXTENSION));
+
+  // Format yang diizinkan
+  $format = ['jpg', 'jpeg', 'png'];
+
+  // Cek format
+  if (!in_array($ekstensi, $format)) {
+    echo "
+    <script>
+        alert('Format gambar harus JPG, JPEG, atau PNG!');
+        window.history.back();
+    </script>";
+    exit;
+  }
+  // buat gambar baru 
+    $nama_baru = uniqid() . '.' . $ekstensi;
+
+  // Upload gambar
   move_uploaded_file(
     $tmp,
-    "../assets/upload/" .$gambar
+    "../assets/upload/" . $nama_baru
   );
 
   $query = mysqli_query(
-        $koneksi,
-        "INSERT INTO produk
+    $koneksi,
+    "INSERT INTO produk
         (
             nama_produk,
             harga,
@@ -29,14 +59,14 @@ if (isset($_POST['simpan'])) {
             '$nama_produk',
             '$harga',
             '$stok',
-            '$gambar',
+            '$nama_baru',
             NOW()
         )"
-    );
+  );
 
-    if (!$query) {
-        die(mysqli_error($koneksi));
-    }
+  if (!$query) {
+    die(mysqli_error($koneksi));
+  }
   header("location: index.php?pesan=tambah");
   exit;
 }

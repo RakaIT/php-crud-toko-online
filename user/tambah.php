@@ -5,7 +5,7 @@ include '../layout/header_user.php';
 if (isset($_POST['simpan'])) {
   $nama = $_POST['nama'];
   $email = $_POST['email'];
-  $password = $_POST['password'];
+  $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
   if (empty($nama) || empty($email) ||empty($password)) {
 

@@ -14,11 +14,16 @@ if (isset($_POST['login'])) {
         </div>";
   } else {
 
-    $cek = mysqli_query(
+    $stmt = mysqli_prepare(
       $koneksi,
-      "SELECT * FROM users WHERE email='$email'"
+      "SELECT * FROM users WHERE email = ?"
     );
-    $user = mysqli_fetch_assoc($cek);
+
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    $user = mysqli_fetch_assoc($result);
 
     if (!$user) {
 
@@ -29,12 +34,12 @@ if (isset($_POST['login'])) {
                 <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
             </div>";
     } else {
-      if ($password == $user['password']) {
+      if (password_verify($password, $user['password'])) {
         session_start();
 
         $_SESSION['login'] = true;
         $_SESSION['id'] = $user['id'];
-        $_SESSION['nama']=$user['nama'];
+        $_SESSION['nama'] = $user['nama'];
 
         header("Location: index.php");
         exit;
@@ -68,14 +73,14 @@ if (isset($_POST['login'])) {
                 <input
                   type="email"
                   name="email"
-                  class="form-control"required>
+                  class="form-control" required>
               </div>
               <div class="mb-3">
                 <label>Password</label>
                 <input
                   type="password"
                   name="password"
-                  class="form-control"required>
+                  class="form-control" required>
               </div>
               <button
                 type="submit"
