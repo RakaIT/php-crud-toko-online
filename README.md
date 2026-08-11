@@ -80,15 +80,15 @@ http://localhost/toko_online
 
 ### Dashboard
 
-_(Tambahkan screenshot dashboard di sini nanti.)_
+![Dashboard.](screenshot/dashboard.png)  
 
 ### Produk
 
-_(Tambahkan screenshot halaman produk di sini nanti.)_
+![Produk](screenshot/produk.png)
 
 ### User
 
-_(Tambahkan screenshot halaman user di sini nanti.)_
+![user](screenshot/user.png)
 
 ---
 
