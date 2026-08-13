@@ -12,13 +12,13 @@ if (isset($_POST['simpan'])) {
 
   //maksimal 2mb
   if ($ukuran  > 2 * 1024 * 1024) {
-    echo"
+    echo "
     <script>
         alert('Ukuran Gambar Maksimal 2 MB!');
         window.history.back();
         </script>";
-        exit;
-  } 
+    exit;
+  }
 
   // Ambil ekstensi file
   $ekstensi = strtolower(pathinfo($gambar, PATHINFO_EXTENSION));
@@ -36,7 +36,7 @@ if (isset($_POST['simpan'])) {
     exit;
   }
   // buat gambar baru 
-    $nama_baru = uniqid() . '.' . $ekstensi;
+  $nama_baru = uniqid() . '.' . $ekstensi;
 
   // Upload gambar
   move_uploaded_file(
@@ -44,7 +44,7 @@ if (isset($_POST['simpan'])) {
     "../assets/upload/" . $nama_baru
   );
 
-  $query = mysqli_query(
+  $stmt = mysqli_prepare(
     $koneksi,
     "INSERT INTO produk
         (
@@ -56,15 +56,18 @@ if (isset($_POST['simpan'])) {
         )
         VALUES
         (
-            '$nama_produk',
-            '$harga',
-            '$stok',
-            '$nama_baru',
-            NOW()
+            ?,?,?,?, NOW()
         )"
   );
-
-  if (!$query) {
+  mysqli_stmt_bind_param(
+    $stmt,
+    "siis",
+    $nama_produk,
+    $harga,
+    $stok,
+    $nama_baru
+  );
+  if (!mysqli_stmt_execute($stmt)) {
     die(mysqli_error($koneksi));
   }
   header("location: index.php?pesan=tambah");

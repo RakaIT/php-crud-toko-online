@@ -4,22 +4,21 @@ include './koneksi.php';
 
 $id = $_GET['id'];
 
-// Ambil data produk
-$query = mysqli_query($koneksi, "SELECT * FROM produk WHERE id='$id'");
-$row = mysqli_fetch_assoc($query);
+$stmt = mysqli_prepare(
+    $koneksi,
+    "DELETE FROM produk
+    WHERE id = ?"
+);
 
-// Hapus gambar jika ada
-if (!empty($row['gambar'])) {
-    $path = "../assets/upload/" . $row['gambar'];
+mysqli_stmt_bind_param(
+    $stmt,
+    "i",
+    $id
+);
 
-    if (file_exists($path)) {
-        unlink($path);
-    }
+if (!mysqli_stmt_execute($stmt)) {
+    die(mysqli_error($koneksi));
 }
 
-// Hapus data produk
-mysqli_query($koneksi, "DELETE FROM produk WHERE id='$id'");
-
-// Kembali ke halaman produk
-header("Location: index.php?pesan=hapus");
+header("Location:index.php?pesan=hapus");
 exit;

@@ -10,69 +10,109 @@ $data = mysqli_query($koneksi, "SELECT * FROM Users WHERE id='$id'");
 $row = mysqli_fetch_assoc($data);
 
 if (isset($_POST['update'])) {
-  $id = $_POST['id'];
-  $nama = $_POST['nama'];
-  $email = $_POST['email'];
-  $password=$_POST['password'];
 
-  if (empty($nama) || empty($email) || empty($password)) {
-    echo "
-    <div class='alert alert-warning alert-dismissible fade show w-50 mx-auto shadow-ms rounded-3' role='alert'>
-          <i class='bi bi-exclamation-triangel-fill me-2'></i>
-              Nama, Email, dan password wajib diisi.
+    $id = $_POST['id'];
+    $nama = ($_POST['nama']);
+    $email = ($_POST['email']);
+    $password = ($_POST['password']);
+
+    // Validasi
+    if (empty($nama) || empty($email)) {
+
+        echo "
+        <div class='alert alert-warning alert-dismissible fade show w-50 mx-auto shadow-sm rounded-3' role='alert'>
+            Nama dan Email wajib diisi.
             <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
         </div>";
-  } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo "
-      <div class='alert alert-danger alert-dismissible fade show w-50 mx-auto shadow-ms rounded-3' role='alert'>
-      <i class='bi bi-envelope-x-fill me-2'></i>
-      Format Email Tidak Valid.
-      <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
-      </div>";
-    } elseif (strlen($password) < 8) {
 
-    echo "
-    <div class='alert alert-danger alert-dismissible fade show w-50 mx-auto shadow-sm rounded-3' role='alert'>
-        <i class='bi bi-lock-fill me-2'></i>
-        Password minimal 8 karakter.
-        <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
-    </div>";
-  } else {
-    // Cek email yang sama, kecuali milik user yang sedang diedit
-    $cek = mysqli_query(
-      $koneksi,
-      "SELECT * FROM users
-              WHERE email='$email'
-              AND id != '$id'"
-    );
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-    if (mysqli_num_rows($cek) > 0) {
+        echo "
+        <div class='alert alert-danger alert-dismissible fade show w-50 mx-auto shadow-sm rounded-3' role='alert'>
+            Format Email Tidak Valid.
+            <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+        </div>";
 
-      echo "
-            <div class='alert alert-danger alert-dismissible fade show w-50 mx-auto shadow-ms rounded-3' role='alert'>
-                <i class='bi bi-envelope-fill me-2'></i>
+    } elseif (!empty($password) && strlen($password) < 8) {
+
+        echo "
+        <div class='alert alert-danger alert-dismissible fade show w-50 mx-auto shadow-sm rounded-3' role='alert'>
+            Password minimal 8 karakter.
+            <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+        </div>";
+
+    } else {
+
+        // Cek email yang sama
+        $cek = mysqli_query(
+            $koneksi,
+            "SELECT * FROM users
+            WHERE email='$email'
+            AND id != '$id'"
+        );
+
+        if (mysqli_num_rows($cek) > 0) {
+
+            echo "
+            <div class='alert alert-danger alert-dismissible fade show w-50 mx-auto shadow-sm rounded-3' role='alert'>
                 Email sudah terdaftar.
                 <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
             </div>";
-    } else {
 
-      $sql = "UPDATE users
-                    SET nama='$nama',
-                        email='$email',
-                        password='$password'
-                    WHERE id ='$id'";
+        } else {
 
+            // PASSWORD DIISI
+            if (!empty($password)) {
 
-      if (!mysqli_query($koneksi, $sql)) {
-        die(mysqli_error($koneksi));
-      }
+                $password = password_hash($password, PASSWORD_DEFAULT);
 
-      header("Location: index.php?pesan=edit");
-      exit;
+                $stmt = mysqli_prepare(
+                    $koneksi,
+                    "UPDATE users
+                    SET nama = ?, email = ?, password = ?
+                    WHERE id = ?"
+                );
+
+                mysqli_stmt_bind_param(
+                    $stmt,
+                    "sssi",
+                    $nama,
+                    $email,
+                    $password,
+                    $id
+                );
+
+            }
+
+            // PASSWORD KOSONG
+            else {
+
+                $stmt = mysqli_prepare(
+                    $koneksi,
+                    "UPDATE users
+                    SET nama = ?, email = ?
+                    WHERE id = ?"
+                );
+
+                mysqli_stmt_bind_param(
+                    $stmt,
+                    "ssi",
+                    $nama,
+                    $email,
+                    $id
+                );
+
+            }
+
+            if (!mysqli_stmt_execute($stmt)) {
+                die(mysqli_error($koneksi));
+            }
+
+            header("Location: index.php?pesan=edit");
+            exit;
+        }
     }
-  }
 }
-
 
 
 ?>
@@ -110,8 +150,8 @@ if (isset($_POST['update'])) {
             <input
               type="password"
               name="password"
-              class="form-control"required
-              value="<?php echo $row['password']; ?>">
+              class="form-control" 
+              placeholder="Kosongkan Jika Tidak Ingin Mengubah Password !!">
           </div>
 
           <button type="submit" name="update" class="btn btn-warning btn-sm">

@@ -3,11 +3,21 @@ include './koneksi.php';
 
 $id = $_GET['id'];
 
-$result = mysqli_query($koneksi, "DELETE FROM users WHERE id='$id'");
+$stmt = mysqli_prepare(
+    $koneksi,
+    "DELETE FROM users
+    WHERE id = ?"
+);
 
-if (!$result) {
+mysqli_stmt_bind_param(
+    $stmt,
+    "i",
+    $id
+);
+
+if (!mysqli_stmt_execute($stmt)) {
     die(mysqli_error($koneksi));
 }
 
-header("Location: index.php?pesan=hapus");
+header("Location:index.php?pesan=hapus");
 exit;

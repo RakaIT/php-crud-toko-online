@@ -17,28 +17,45 @@ if (isset($_POST['update'])) {
   $gambar_lama = $_POST['gambar_lama'];
   $gambar = $_FILES['gambar']['name'];
   $tmp = $_FILES['gambar']['tmp_name'];
+
   if ($gambar != "") {
-    move_uploaded_file($tmp, "../assets/upload/" . $gambar);
+
+    $ekstensi = strtolower(pathinfo($gambar, PATHINFO_EXTENSION));
+
+    $nama_baru = uniqid() . "." . $ekstensi;
+
+    move_uploaded_file(
+      $tmp,
+      "../assets/upload/" . $nama_baru
+    );
+
+    $gambar = $nama_baru;
   } else {
+
     $gambar = $gambar_lama;
   }
 
-  $cek = mysqli_query(
+  $stmt = mysqli_prepare(
     $koneksi,
-    "SELECT * FROM produk
-      WHERE nama_produk='$nama_produk'
-      AND id != '$id'"
+    "UPDATE produk
+    SET nama_produk = ?,
+        harga = ?,
+        stok = ?,
+        gambar = ?
+    WHERE id = ?"
   );
 
-  $sql = "UPDATE produk
-        SET nama_produk='$nama_produk',
-            harga='$harga',
-            stok='$stok',
-            gambar='$gambar'
-        WHERE id='$id'";
+  mysqli_stmt_bind_param(
+    $stmt,
+    "siisi",
+    $nama_produk,
+    $harga,
+    $stok,
+    $gambar,
+    $id
+  );
 
-
-  if (!mysqli_query($koneksi, $sql)) {
+  if (!mysqli_stmt_execute($stmt)) {
     die(mysqli_error($koneksi));
   }
 

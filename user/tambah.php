@@ -7,7 +7,7 @@ if (isset($_POST['simpan'])) {
   $email = $_POST['email'];
   $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-  if (empty($nama) || empty($email) ||empty($password)) {
+  if (empty($nama) || empty($email) || empty($password)) {
 
     echo "
 <div class='alert alert-danger alert-dismissible fade show w-50 mx-auto shadow-sm rounded-3' role='alert'>
@@ -22,7 +22,7 @@ if (isset($_POST['simpan'])) {
       Format Email Tidak Valid.
       <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
       </div>";
-    } elseif (strlen($password) < 8) {
+  } elseif (strlen($password) < 8) {
 
     echo "
     <div class='alert alert-danger alert-dismissible fade show w-50 mx-auto shadow-sm rounded-3' role='alert'>
@@ -30,7 +30,6 @@ if (isset($_POST['simpan'])) {
         Password minimal 8 karakter.
         <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
     </div>";
-  
   } else {
     $cek = mysqli_query(
       $koneksi,
@@ -46,9 +45,21 @@ if (isset($_POST['simpan'])) {
         </div>";
     } else {
 
-      $sql = "INSERT INTO users (nama, email, password)
-  VALUES ('$nama', '$email','$password')";
-      if (!mysqli_query($koneksi, $sql)) {
+      $stmt = mysqli_prepare(
+        $koneksi,
+        "INSERT INTO users (nama, email, password)
+    VALUES (?, ?, ?)"
+      );
+
+      mysqli_stmt_bind_param(
+        $stmt,
+        "sss",
+        $nama,
+        $email,
+        $password
+      );
+
+      if (!mysqli_stmt_execute($stmt)) {
         die(mysqli_error($koneksi));
       }
 
