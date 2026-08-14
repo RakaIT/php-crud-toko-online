@@ -11,17 +11,38 @@ if (!isset($_SESSION['login'])) {
 include './koneksi.php';
 include '../layout/header_produk.php';
 
-if (isset($_GET['search'])) {
-  $search = $_GET['search'];
+$search = "";
 
-  $data = mysqli_query(
-    $koneksi,
-    "SELECT * FROM produk 
-      WHERE nama_produk LIKE '%$search%'"
-  );
-} else {
-  $data = mysqli_query($koneksi, "SELECT * FROM produk");
+if (isset($_GET['search'])) {
+    $search =($_GET['search']);
 }
+
+$limit = 5;
+
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+$offset = ($page - 1) * $limit;
+
+$totalData = mysqli_query(
+    $koneksi,
+    "SELECT COUNT(*) AS total
+      FROM produk
+      WHERE nama_produk LIKE '%$search%'"
+);
+
+$total = mysqli_fetch_assoc($totalData);
+
+$totalHalaman = ceil($total['total'] / $limit);
+
+$data = mysqli_query(
+    $koneksi,
+    "SELECT *
+      FROM produk
+      WHERE nama_produk LIKE '%$search%'
+      ORDER BY id DESC
+      LIMIT $limit OFFSET $offset"
+);
+
 ?>
 
 <div class="container mt-5">
@@ -102,8 +123,8 @@ if (isset($_GET['search'])) {
       <th>Stok</th>
       <th>Aksi</th>
     </tr>
-    <?php  $no = 1;
-      while ($row = mysqli_fetch_assoc($data)) { ?>
+    <?php $no = $offset + 1;
+    while ($row = mysqli_fetch_assoc($data)) { ?>
       <td><?= $no++; ?></td>
       <td>
         <img
@@ -115,23 +136,57 @@ if (isset($_GET['search'])) {
       <td><?= $row['nama_produk']; ?></td>
       <td>Rp<?= number_format($row['harga']); ?></td>
       <td><?= $row['stok']; ?>
-    </td>
-        <td>
-          <a href="edit.php?id=<?php echo $row['id']; ?>" class="btn btn-edit">
-            Edit
-          </a>
+      </td>
+      <td>
+        <a href="edit.php?id=<?php echo $row['id']; ?>" class="btn btn-edit">
+          Edit
+        </a>
 
-          <a href="hapus.php?id=<?php echo $row['id']; ?>"
-            class="btn btn-hapus"
-            onclick="return confirm('Yakin ingin menghapus produk ini?')">
-            Hapus
-          </a>
-        </td>
+        <a href="hapus.php?id=<?php echo $row['id']; ?>"
+          class="btn btn-hapus"
+          onclick="return confirm('Yakin ingin menghapus produk ini?')">
+          Hapus
+        </a>
+      </td>
       </tr>
 
     <?php } ?>
 
   </table>
+  <nav>
+    <ul class="pagination justify-content-center">
+
+        <?php if ($page > 1) : ?>
+            <li class="page-item">
+                <a class="page-link"
+                  href="?page=<?= $page - 1; ?>&search=<?= $search; ?>">
+                    Previous
+                </a>
+            </li>
+        <?php endif; ?>
+
+        <?php for ($i = 1; $i <= $totalHalaman; $i++) : ?>
+
+            <li class="page-item <?= ($i == $page) ? 'active' : ''; ?>">
+                <a class="page-link"
+                  href="?page=<?= $i; ?>&search=<?= $search; ?>">
+                    <?= $i; ?>
+                </a>
+            </li>
+
+        <?php endfor; ?>
+
+        <?php if ($page < $totalHalaman) : ?>
+            <li class="page-item">
+                <a class="page-link"
+                  href="?page=<?= $page + 1; ?>&search=<?= $search; ?>">
+                    Next
+                </a>
+            </li>
+        <?php endif; ?>
+
+    </ul>
+</nav>
 </div>
 
 <?php include '../layout/footer.php'; ?>

@@ -301,51 +301,10 @@ footer h3{
     color: white;
 }
 
-.dashboard-card{
-    min-height: 160px;
-    border-radius:20px;
-    transition:.3s;
-}
-
-.dashboard-card:hover{
-
-    transform:translateY(-8px);
-    box-shadow:0 20px 40px rgba(0,0,0,.2);
-
-}
-
-.dashboard-card .card-body{
-
-    padding:35px;
-
-}
-
-.dashboard-card h1{
-
-    font-size:48px;
-    font-weight:bold;
-
-}
-
-.dashboard-card{
-    border-radius:20px;
-    padding:20px;
-    min-height:220px;
-}
-
-.dashboard-card h4{
-    font-size:28px;
-    font-weight:600;
-}
-
-.dashboard-card p{
-    font-size:16px;
-    margin-top:10px;
-    color:#6c757d;
-}
 
 .card-dashboard{
     transition: .3s;
+    
 }
 
 .card-dashboard:hover{
