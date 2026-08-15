@@ -13,8 +13,10 @@ include '../layout/header_produk.php';
 
 $search = "";
 
+$sort = isset($_GET['sort']) ? $_GET['sort'] : "terbaru";
+
 if (isset($_GET['search'])) {
-    $search =($_GET['search']);
+  $search = ($_GET['search']);
 }
 
 $limit = 5;
@@ -23,9 +25,36 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
 $offset = ($page - 1) * $limit;
 
+switch ($sort) {
+
+  case "terlama":
+    $order = "id ASC";
+    break;
+
+  case "murah":
+    $order = "harga ASC";
+    break;
+
+  case "mahal":
+    $order = "harga DESC";
+    break;
+
+  case "stok_banyak":
+    $order = "stok DESC";
+    break;
+
+  case "stok_sedikit":
+    $order = "stok ASC";
+    break;
+
+  default:
+    $order = "id DESC";
+}
+
+
 $totalData = mysqli_query(
-    $koneksi,
-    "SELECT COUNT(*) AS total
+  $koneksi,
+  "SELECT COUNT(*) AS total
       FROM produk
       WHERE nama_produk LIKE '%$search%'"
 );
@@ -35,11 +64,11 @@ $total = mysqli_fetch_assoc($totalData);
 $totalHalaman = ceil($total['total'] / $limit);
 
 $data = mysqli_query(
-    $koneksi,
-    "SELECT *
+  $koneksi,
+  "SELECT *
       FROM produk
       WHERE nama_produk LIKE '%$search%'
-      ORDER BY id DESC
+      ORDER BY $order
       LIMIT $limit OFFSET $offset"
 );
 
@@ -99,13 +128,37 @@ $data = mysqli_query(
             name="search"
             placeholder="Cari Produk..."
             value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+            <select name="sort" class="form-select ms-2" style="width:155px;">
+
+              <option value="terbaru" <?= ($sort == "terbaru") ? "selected" : ""; ?>>
+                Terbaru
+              </option>
+
+              <option value="terlama" <?= ($sort == "terlama") ? "selected" : ""; ?>>
+                Terlama
+              </option>
+
+              <option value="murah" <?= ($sort == "murah") ? "selected" : ""; ?>>
+                Harga Termurah
+              </option>
+
+              <option value="mahal" <?= ($sort == "mahal") ? "selected" : ""; ?>>
+                Harga Termahal
+              </option>
+
+              <option value="stok_banyak" <?= ($sort == "stok_banyak") ? "selected" : ""; ?>>
+                Stok Terbanyak
+              </option>
+
+              <option value="stok_sedikit" <?= ($sort == "stok_sedikit") ? "selected" : ""; ?>>
+                Stok Tersedikit
+              </option>
+
+            </select>
           <button class="btn btn-info ms-1">
             <i class="bi bi-search"></i>
           </button>
         </form>
-        <a href="tambah.php" class="btn btn-success ms-2">
-          Tambah Produk
-        </a>
       </div>
     </div>
   </div>
@@ -156,37 +209,37 @@ $data = mysqli_query(
   <nav>
     <ul class="pagination justify-content-center">
 
-        <?php if ($page > 1) : ?>
-            <li class="page-item">
-                <a class="page-link"
-                  href="?page=<?= $page - 1; ?>&search=<?= $search; ?>">
-                    Previous
-                </a>
-            </li>
-        <?php endif; ?>
+      <?php if ($page > 1) : ?>
+        <li class="page-item">
+          <a class="page-link"
+            href="?page=<?= $page - 1; ?>&search=<?= $search; ?>">
+            Previous
+          </a>
+        </li>
+      <?php endif; ?>
 
-        <?php for ($i = 1; $i <= $totalHalaman; $i++) : ?>
+      <?php for ($i = 1; $i <= $totalHalaman; $i++) : ?>
 
-            <li class="page-item <?= ($i == $page) ? 'active' : ''; ?>">
-                <a class="page-link"
-                  href="?page=<?= $i; ?>&search=<?= $search; ?>">
-                    <?= $i; ?>
-                </a>
-            </li>
+        <li class="page-item <?= ($i == $page) ? 'active' : ''; ?>">
+          <a class="page-link"
+            href="?page=<?= $i; ?>&search=<?= $search; ?>$sort=<?=$sort; ?>">
+            <?= $i; ?>
+          </a>
+        </li>
 
-        <?php endfor; ?>
+      <?php endfor; ?>
 
-        <?php if ($page < $totalHalaman) : ?>
-            <li class="page-item">
-                <a class="page-link"
-                  href="?page=<?= $page + 1; ?>&search=<?= $search; ?>">
-                    Next
-                </a>
-            </li>
-        <?php endif; ?>
+      <?php if ($page < $totalHalaman) : ?>
+        <li class="page-item">
+          <a class="page-link"
+            href="?page=<?= $page + 1; ?>&search=<?= $search; ?>">
+            Next
+          </a>
+        </li>
+      <?php endif; ?>
 
     </ul>
-</nav>
+  </nav>
 </div>
 
 <?php include '../layout/footer.php'; ?>

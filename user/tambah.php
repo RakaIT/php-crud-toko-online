@@ -92,9 +92,10 @@ if (isset($_POST['simpan'])) {
               </div>
 
               <button type="submit" name="simpan" class="btn btn-success">
+                <i class="bi bi-floppy-fill"></i>
                 Simpan
               </button>
-              <a href="index.php" class="btn btn-secondary">Kembali</a>
+              <a href="index.php" class="bi bi-box-arrow-left btn btn-danger">Kembali</a>
             </form>
           </div>
         </div>
