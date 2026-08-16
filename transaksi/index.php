@@ -17,39 +17,66 @@ $data = mysqli_query($koneksi, "
 $no = 1;
 
 ?>
+<div class="container">
 
-<div class="hero">
-  <div class="hero-user-overlay">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <form method="GET" class="d-flex">
+  <div class="hero-transaksi">
 
-        <input class="form-control search-box"
-          type="text"
-          name="search"
-          class="form-control me-2"
-          placeholder="Cari Transaksi..."
-          value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
-        <button class="btn btn-info ms-1">
-          <i class="bi bi-search"></i>
-        </button>
-      </form>
-      <a href="tambah.php" class="btn btn-success ms-2">
-        <i class="bi bi-cart-plus"></i>
-      </a>
+    <div class="hero-overlay">
+
+      <div class="row align-items-center h-100">
+
+        <div class="col-md-6">
+
+          <h1 class="hero-title">
+            <i class="bi bi-cart-check"></i>
+            Data Transaksi
+          </h1>
+
+          <p class="hero-subtitle">
+            Kelola seluruh transaksi penjualan.
+          </p>
+
+          <form method="GET" class="d-flex mt-4">
+
+            <input
+              type="text"
+              name="search"
+              class="form-control"
+              placeholder="Cari transaksi..."
+              value="<?= isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+
+            <button class="btn btn-info ms-2">
+              <i class="bi bi-search"></i>
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
     </div>
+
   </div>
+
 </div>
-<div class="container mt-4">
-  <a href="tambah.php" Tambah.php" class="btn btn-success mb-3">
-    <i class="bi bi-cart-plus"></i>
-    Tambah Transaksi
-  </a>
+<div class="d-flex justify-content-between align-items-center  mb-4">
+
+    <h3 class="fw-bold mb-0">
+        <i class="bi bi-clock-history"></i>
+        Riwayat Transaksi
+    </h3>
+
+    <a href="tambah.php" class="btn btn-success btn-tambah">
+        <i class="bi bi-cart-plus"></i>
+        Tambah Transaksi
+    </a>
+
 </div>
 
 <table class="table table-hover">
 
   <thead>
-
     <tr>
 
       <th>No</th>
@@ -60,9 +87,7 @@ $no = 1;
       <th>Aksi</th>
 
     </tr>
-
   </thead>
-
   <tbody>
 
     <?php while ($row = mysqli_fetch_assoc($data)) { ?>
@@ -73,7 +98,7 @@ $no = 1;
         <td><?= $row['qty']; ?></td>
         <td>Rp<?= number_format($row['total']); ?></td>
         <td>
-          <a href="edit.php?id=<?= $row['id']; ?>" class="btn btn-warning btn-sm">
+          <a href="edit.php?id=<?= $row['id']; ?>" class="btn btn-edit">
             Edit
           </a>
           <a

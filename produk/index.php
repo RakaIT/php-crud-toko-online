@@ -198,6 +198,7 @@ $data = mysqli_query(
         <a href="hapus.php?id=<?php echo $row['id']; ?>"
           class="btn btn-hapus"
           onclick="return confirm('Yakin ingin menghapus produk ini?')">
+          <i class="bi bi-trash"></i>
           Hapus
         </a>
       </td>

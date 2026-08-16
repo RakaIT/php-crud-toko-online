@@ -125,6 +125,7 @@ if (isset($_GET['search'])) {
           <a href="hapus.php?id=<?php echo $row['id']; ?>"
             class="btn btn-hapus"
             onclick="return confirm('Yakin ingin menghapus data ini?')">
+          <i class="bi bi-trash"></i>
             Hapus
           </a>
         </td>

@@ -101,109 +101,111 @@ if (isset($_POST['update'])) {
   }
 }
 ?>
+<div class="container py-5" style="min-height:85vh;">
+  <form method="POST">
+    <div class="card shadow">
 
-<form method="POST">
 
-  <div class="card shadow">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <div class="mb-3">
-            <label class="form-label fw-bold">
-              Produk
-            </label>
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <div class="mb-3">
+                <label class="form-label fw-bold">
+                  Produk
+                </label>
 
-            <input
-              type="text"
-              class="form-control bg-light"
-              value="<?= $produk['nama_produk']; ?>"
-              readonly>
+                <input
+                  type="text"
+                  class="form-control bg-light"
+                  value="<?= $produk['nama_produk']; ?>"
+                  readonly>
 
-            <input
-              type="hidden"
-              name="produk_id"
-              value="<?= $produk['id']; ?>">
+                <input
+                  type="hidden"
+                  name="produk_id"
+                  value="<?= $produk['id']; ?>">
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-bold">
+                Qty
+              </label>
+              <input
+                type="number"
+                id="qty"
+                name="qty"
+                class="form-control"
+                value="<?= $row['qty']; ?>">
+
+            </div>
+
           </div>
-        </div>
-        <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">
-            Qty
-          </label>
-          <input
-            type="number"
-            id="qty"
-            name="qty"
-            class="form-control"
-            value="<?= $row['qty']; ?>">
 
-        </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-bold">
+                Harga
+              </label>
+              <input
+                type="text"
+                id="harga"
+                class="form-control bg-light"
+                readonly>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-bold">
+                Total
+              </label>
+              <input
+                type="text"
+                id="total"
+                class="form-control bg-light"
+                readonly>
+            </div>
+          </div>
 
+          <button
+            type="submit"
+            name="update"
+            class="btn btn-warning">
+            Update
+          </button>
+          <a
+            href="index.php"
+            class="btn btn-danger">
+            Kembali
+          </a>
+        </div>
       </div>
+  </form>
 
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">
-            Harga
-          </label>
-          <input
-            type="text"
-            id="harga"
-            class="form-control bg-light"
-            readonly>
-        </div>
-        <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">
-            Total
-          </label>
-          <input
-            type="text"
-            id="total"
-            class="form-control bg-light"
-            readonly>
-        </div>
-      </div>
+  <script>
+    const qty = document.getElementById("qty");
+    const harga = document.getElementById("harga");
+    const total = document.getElementById("total");
 
-      <button
-        type="submit"
-        name="update"
-        class="btn btn-warning">
-        Update
-      </button>
-      <a
-        href="index.php"
-        class="btn btn-danger">
-        Kembali
-      </a>
-    </div>
-  </div>
-</form>
+    let hargaAsli = <?= $produk['harga']; ?>;
 
-<script>
+    function rupiah(angka) {
+      return "Rp " + Number(angka).toLocaleString("id-ID");
+    }
 
-const qty = document.getElementById("qty");
-const harga = document.getElementById("harga");
-const total = document.getElementById("total");
+    function hitung() {
 
-let hargaAsli = <?= $produk['harga']; ?>;
+      harga.value = rupiah(hargaAsli);
 
-function rupiah(angka){
-    return "Rp " + Number(angka).toLocaleString("id-ID");
-}
+      total.value = rupiah(hargaAsli * qty.value);
 
-function hitung(){
+    }
 
-    harga.value = rupiah(hargaAsli);
+    qty.addEventListener("input", hitung);
 
-    total.value = rupiah(hargaAsli * qty.value);
-
-}
-
-qty.addEventListener("input", hitung);
-
-window.onload = hitung;
-
-</script>
-
+    window.onload = hitung;
+  </script>
+  </form>
+</div>
+</div>
   <?php
   include '../layout/footer.php';
   ?>

@@ -24,7 +24,6 @@ if (isset($_POST['update'])) {
             Nama dan Email wajib diisi.
             <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
         </div>";
-
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
         echo "
@@ -32,7 +31,6 @@ if (isset($_POST['update'])) {
             Format Email Tidak Valid.
             <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
         </div>";
-
     } elseif (!empty($password) && strlen($password) < 8) {
 
         echo "
@@ -40,7 +38,6 @@ if (isset($_POST['update'])) {
             Password minimal 8 karakter.
             <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
         </div>";
-
     } else {
 
         // Cek email yang sama
@@ -58,7 +55,6 @@ if (isset($_POST['update'])) {
                 Email sudah terdaftar.
                 <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
             </div>";
-
         } else {
 
             // PASSWORD DIISI
@@ -81,7 +77,6 @@ if (isset($_POST['update'])) {
                     $password,
                     $id
                 );
-
             }
 
             // PASSWORD KOSONG
@@ -101,7 +96,6 @@ if (isset($_POST['update'])) {
                     $email,
                     $id
                 );
-
             }
 
             if (!mysqli_stmt_execute($stmt)) {
@@ -117,51 +111,51 @@ if (isset($_POST['update'])) {
 
 ?>
 <div class="container mt-5">
-  <div class="container mt-5 form-page">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card shadow">
+    <div class="container mt-5 form-page">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
 
+                </div>
+            </div>
         </div>
-      </div>
+        <h2>Edit Users</h2>
+        <form method="POST">
+            <div class="card shadow">
+                <div class="card-body">
+
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <div class="mb-3">
+                        <label>Nama</label>
+                        <input type="text"
+                            name="nama"
+                            class="form-control" required
+                            value="<?php echo $row['nama']; ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email"
+                            name="email"
+                            class="form-control" required
+                            value="<?php echo $row['email']; ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Kosongkan Jika Tidak Ingin Mengubah Password !!">
+                    </div>
+
+                    <button type="submit" name="update" class="btn btn-warning btn-sm">
+                        Update
+                    </button>
+                    <a href="index.php" class="btn btn-danger btn-sm">
+                        Kembali
+                    </a>
+        </form>
     </div>
-    <h2>Edit Users</h2>
-    <form method="POST">
-      <div class="card shadow">
-        <div class="card-body">
-
-          <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-          <div class="mb-3">
-            <label>Nama</label>
-            <input type="text"
-              name="nama"
-              class="form-control" required
-              value="<?php echo $row['nama']; ?>">
-          </div>
-          <div class="mb-3">
-            <label>Email</label>
-            <input type="email"
-              name="email"
-              class="form-control" required
-              value="<?php echo $row['email']; ?>">
-          </div>
-          <div class="mb-3">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              class="form-control" 
-              placeholder="Kosongkan Jika Tidak Ingin Mengubah Password !!">
-          </div>
-
-          <button type="submit" name="update" class="btn btn-warning btn-sm">
-            Update
-          </button>
-          <a href="index.php" class="btn btn-secondary btn-sm">
-            Kembali
-          </a>
-    </form>
-  </div>
 </div>
 </div>
 </div>

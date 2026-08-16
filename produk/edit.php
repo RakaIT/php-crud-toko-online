@@ -121,7 +121,7 @@ if (isset($_POST['update'])) {
           <button type="submit" name="update" class="btn btn-warning btn-sm">
             Update
           </button>
-          <a href="index.php" class="btn btn-secondary btn-sm">
+          <a href="index.php" class="btn btn-danger btn-sm">
             Kembali
           </a>
     </form>
