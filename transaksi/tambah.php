@@ -5,32 +5,49 @@ include '../layout/header_transaksi.php';
 $data_produk = mysqli_query($koneksi, "SELECT * FROM produk");
 
 if (isset($_POST['simpan'])) {
-  $produk_id = $_POST['produk_id'];
-  $qty = $_POST['qty'];
 
-  $queryProduk = mysqli_query($koneksi, "SELECT * FROM produk WHERE id='$produk_id'");
-  $produk = mysqli_fetch_assoc($queryProduk);
+    $produk_id = $_POST['produk_id'];
+    $qty = $_POST['qty'];
 
-  $harga = $produk['harga'];
-  $total = $harga * $qty;
+    $queryProduk = mysqli_query($koneksi, "SELECT * FROM produk WHERE id='$produk_id'");
+    $produk = mysqli_fetch_assoc($queryProduk);
 
-mysqli_query($koneksi, "
-INSERT INTO transaksi
-(produk_id, qty, total)
-VALUES
-('$produk_id','$qty','$total')
-");
-echo "
+    $harga = $produk['harga'];
+    $total = $harga * $qty;
 
-<script>
+    // VALIDASI STOK
+    if ($qty > $produk['stok']) {
 
-alert('Transaksi Berhasil');
+        echo "
+        <script>
+        alert('Stok tidak mencukupi!');
+        </script>
+        ";
 
-document.location.href='index.php';
+    } else {
 
-</script>
+        mysqli_query($koneksi, "
+        INSERT INTO transaksi
+        (produk_id, qty, total)
+        VALUES
+        ('$produk_id','$qty','$total')
+        ");
 
-";
+        mysqli_query($koneksi, "
+        UPDATE produk
+        SET stok = stok - '$qty'
+        WHERE id = '$produk_id'
+        ");
+
+        echo "
+        <script>
+        alert('Transaksi Berhasil');
+        document.location.href='index.php';
+        </script>
+        ";
+
+    }
+
 }
 
 

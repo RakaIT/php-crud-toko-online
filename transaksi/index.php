@@ -3,6 +3,18 @@
 include 'koneksi.php';
 include '../layout/header_transaksi.php';
 
+$data = mysqli_query($koneksi, "
+  SELECT transaksi.*, produk.nama_produk
+
+  FROM transaksi
+
+  JOIN produk
+  ON transaksi.produk_id = produk.id
+  ORDER BY transaksi.id DESC
+
+");
+
+$no = 1;
 
 ?>
 
@@ -28,7 +40,7 @@ include '../layout/header_transaksi.php';
   </div>
 </div>
 <div class="container mt-4">
-  <a href="" Tambah.php" class="btn btn-success mb-3">
+  <a href="tambah.php" Tambah.php" class="btn btn-success mb-3">
     <i class="bi bi-cart-plus"></i>
     Tambah Transaksi
   </a>
@@ -53,14 +65,27 @@ include '../layout/header_transaksi.php';
 
   <tbody>
 
-    <tr>
-
-      <td colspan="6" class="text-center">
-        Belum ada transaksi
-      </td>
-
-    </tr>
-
+    <?php while ($row = mysqli_fetch_assoc($data)) { ?>
+      <tr>
+        <td><?= $no++; ?></td>
+        <td><?= $row['created_at']; ?></td>
+        <td><?= $row['nama_produk']; ?></td>
+        <td><?= $row['qty']; ?></td>
+        <td>Rp<?= number_format($row['total']); ?></td>
+        <td>
+          <a href="edit.php?id=<?= $row['id']; ?>" class="btn btn-warning btn-sm">
+            Edit
+          </a>
+          <a
+            href="hapus.php?id=<?= $row['id']; ?>"
+            class="btn btn-danger btn-sm"
+            onclick="return confirm('Yakin ingin menghapus transaksi ini?')">
+            <i class="bi bi-trash"></i>
+            Hapus
+          </a>
+        </td>
+      </tr>
+    <?php } ?>
   </tbody>
 
 </table>
