@@ -3,16 +3,21 @@
 include 'koneksi.php';
 include '../layout/header_transaksi.php';
 
+$search = "";
+
+if (isset($_GET['search'])) {
+  $search = $_GET['search'];
+}
+
 $data = mysqli_query($koneksi, "
-  SELECT transaksi.*, produk.nama_produk
-
-  FROM transaksi
-
-  JOIN produk
-  ON transaksi.produk_id = produk.id
-  ORDER BY transaksi.id DESC
-
+SELECT transaksi.*, produk.nama_produk
+FROM transaksi
+JOIN produk
+ON transaksi.produk_id = produk.id
+WHERE produk.nama_produk LIKE '%$search%'
+ORDER BY transaksi.id DESC
 ");
+
 
 $no = 1;
 
@@ -43,7 +48,7 @@ $no = 1;
               name="search"
               class="form-control"
               placeholder="Cari transaksi..."
-              value="<?= isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+              value="<?= $search; ?>">
 
             <button class="btn btn-info ms-2">
               <i class="bi bi-search"></i>
@@ -62,15 +67,15 @@ $no = 1;
 </div>
 <div class="d-flex justify-content-between align-items-center  mb-4">
 
-    <h3 class="fw-bold mb-0">
-        <i class="bi bi-clock-history"></i>
-        Riwayat Transaksi
-    </h3>
+  <h3 class="fw-bold mb-0">
+    <i class="bi bi-clock-history"></i>
+    Riwayat Transaksi
+  </h3>
 
-    <a href="tambah.php" class="btn btn-success btn-tambah">
-        <i class="bi bi-cart-plus"></i>
-        Tambah Transaksi
-    </a>
+  <a href="tambah.php" class="btn btn-success btn-tambah">
+    <i class="bi bi-cart-plus"></i>
+    Tambah Transaksi
+  </a>
 
 </div>
 

@@ -213,7 +213,7 @@ $data = mysqli_query(
       <?php if ($page > 1) : ?>
         <li class="page-item">
           <a class="page-link"
-            href="?page=<?= $page - 1; ?>&search=<?= $search; ?>">
+            href="?page=<?= $page - 1; ?>&search=<?= $search; ?>&sort=<?= $sort; ?>">
             Previous
           </a>
         </li>
@@ -223,7 +223,7 @@ $data = mysqli_query(
 
         <li class="page-item <?= ($i == $page) ? 'active' : ''; ?>">
           <a class="page-link"
-            href="?page=<?= $i; ?>&search=<?= $search; ?>$sort=<?=$sort; ?>">
+            href="?page=<?= $i; ?>&search=<?= $search; ?>&sort=<?=$sort; ?>">
             <?= $i; ?>
           </a>
         </li>
@@ -233,7 +233,7 @@ $data = mysqli_query(
       <?php if ($page < $totalHalaman) : ?>
         <li class="page-item">
           <a class="page-link"
-            href="?page=<?= $page + 1; ?>&search=<?= $search; ?>">
+            href="?page=<?= $i; ?>&search=<?= $search; ?>&sort=<?=$sort; ?>">
             Next
           </a>
         </li>
