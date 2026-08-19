@@ -26,6 +26,20 @@ $inventori = mysqli_query(
 );
 
 $totalInventori = mysqli_fetch_assoc($inventori);
+//total transaksi
+$transaksi = mysqli_query($koneksi, "SELECT COUNT(*)
+AS total FROM transaksi
+");
+
+$totalTransaksi = mysqli_fetch_assoc($transaksi);
+
+//total pendapatan
+$pendapatan = mysqli_query($koneksi, "SELECT SUM(total)
+AS total FROM transaksi
+");
+
+$totalPendapatan = mysqli_fetch_assoc($pendapatan);
+
 
 // Produk Terbaru
 $produkTerbaru = mysqli_query(
@@ -95,12 +109,41 @@ include '../layout/header_dashboard.php';
 
           <h5 class="mt-3">Nilai Inventori</h5>
           <p class="text-success">
-          Rp <?= number_format($totalInventori['total'], 0, ',', '.'); ?>
+            Rp <?= number_format($totalInventori['total'], 0, ',', '.'); ?>
           </p>
         </div>
       </div>
     </div>
 
+    <div class="col-md-3">
+      <div class="card card-dashboard shadow border-0 h-100">
+        <div class="card-body text-center">
+
+          <i class="bi bi-cart-check-fill text-danger display-4"></i>
+
+          <h5 class="mt-3">Total Transaksi</h5>
+
+          <h1><?= $totalTransaksi['total']; ?></h1>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card card-dashboard shadow border-0 h-100">
+        <div class="card-body text-center">
+
+          <i class="bi bi-cash-coin text-success display-4"></i>
+
+          <h5 class="mt-3">Total Pendapatan</h5>
+
+          <p class="text-success fs-4 fw-bold">
+            Rp <?= number_format($totalPendapatan['total'], 0, ',', '.'); ?>
+          </p>
+
+        </div>
+      </div>
+    </div>
     <div class="card shadow mt-4">
       <div class="card-header">
         <h5>Produk Terbaru</h5>

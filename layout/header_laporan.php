@@ -17,32 +17,31 @@
     <div class="container">
 
       <a href="../transaksi/index.php" class="navbar-brand">
-        <i class="bi bi-cart-plus"></i>
+        <i class="bi bi-speedomete">Laporan</i>
         <span>Data produk</span>
       </a>
 
       <div class="ms-auto nav-menu">
 
-        <a href="../transaksi/index.php" class="btn nav-btn">
-          <i class="bi bi-house-door"></i>
-          Home
+        <a href="../produk/index.php" class="btn nav-btn">
+          <i class="bi bi-box-seam"></i>
+          Produk
         </a>
 
-        <a href="../transaksi/tambah.php" class="btn nav-btn">
-          <i class="bi bi-cart-plus"></i>
-          Transaksi
+        <a href="../user/index.php" class="btn nav-btn">
+          <i class="bi bi-people-fill"></i>
+          User
         </a> 
         <a href="../dashboard/index.php" class="btn nav-btn">
           <i class="bi bi-bar-chart-fill"></i>Dashboard
         </a>
 
-        <a href="../laporan/index.php" class="btn nav-btn">
-          <i class="bi bi-file-earmark-bar-graph"></i>Laporan
+        <a href="../transaksi/index.php" class="btn nav-btn">
+          <i class="bi bi-cart"></i>Transaksi
         </a>
 
-        <a href="../logout.php" class="nav-btn text-danger text-decoration-none">
-          <i class="bi bi-box-arrow-right"></i>
-          Logout
+        <a href="../laporan/index.php" class="btn nav-btn">
+          <i class="bi bi-file-earmark-bar-graph"></i>Laporan
         </a>
 
       </div>
